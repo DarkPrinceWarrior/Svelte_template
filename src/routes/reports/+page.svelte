@@ -283,6 +283,7 @@
 
   .table-wrapper {
     margin-bottom: 32px;
+    width: fit-content;
   }
 
   .table-header {
@@ -363,7 +364,7 @@
   .actions {
     display: flex;
     gap: 16px;
-    justify-content: flex-end;
+    width: fit-content;
   }
 
   .action-btn {
