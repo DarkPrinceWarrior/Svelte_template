@@ -10,15 +10,63 @@
   import ChevronDownIcon from '../home/icons/ChevronDownIcon.svelte';
   import EditIcon from '$lib/icons/EditIcon.svelte';
   import DownloadIcon from '$lib/icons/DownloadIcon.svelte';
+  import ChevronLeftIcon from '$lib/icons/ChevronLeftIcon.svelte';
+  import ChevronRightIcon from '$lib/icons/ChevronRightIcon.svelte';
 
-  const programs = [
+  const allPrograms = [
     { id: 1, name: 'Инвестиционная программа 1', cost: '5.856 М руб.', y2020: '1.2 М руб.', y2021: '0.8 М руб.', y2022: '2.8 М руб.', y2023: '2.1 М руб.' },
     { id: 2, name: 'Инвестиционная программа 2', cost: '7.200 М руб.', y2020: '1.5 М руб.', y2021: '1.0 М руб.', y2022: '3.2 М руб.', y2023: '2.5 М руб.' },
     { id: 3, name: 'Инвестиционная программа 3', cost: '7.200 М руб.', y2020: '1.5 М руб.', y2021: '1.0 М руб.', y2022: '3.2 М руб.', y2023: '2.5 М руб.' },
     { id: 4, name: 'Инвестиционная программа 4', cost: '7.200 М руб.', y2020: '1.5 М руб.', y2021: '1.0 М руб.', y2022: '3.2 М руб.', y2023: '2.5 М руб.' },
     { id: 5, name: 'Инвестиционная программа 5', cost: '7.200 М руб.', y2020: '1.5 М руб.', y2021: '1.0 М руб.', y2022: '3.2 М руб.', y2023: '2.5 М руб.' },
-    { id: 6, name: 'Инвестиционная программа 6', cost: '7.200 М руб.', y2020: '1.5 М руб.', y2021: '1.0 М руб.', y2022: '3.2 М руб.', y2023: '2.5 М руб.' }
+    { id: 6, name: 'Инвестиционная программа 6', cost: '7.200 М руб.', y2020: '1.5 М руб.', y2021: '1.0 М руб.', y2022: '3.2 М руб.', y2023: '2.5 М руб.' },
+    { id: 7, name: 'Инвестиционная программа 7', cost: '6.100 М руб.', y2020: '1.3 М руб.', y2021: '0.9 М руб.', y2022: '2.9 М руб.', y2023: '2.0 М руб.' },
+    { id: 8, name: 'Инвестиционная программа 8', cost: '8.500 М руб.', y2020: '1.8 М руб.', y2021: '1.2 М руб.', y2022: '3.5 М руб.', y2023: '2.8 М руб.' },
+    { id: 9, name: 'Инвестиционная программа 9', cost: '5.200 М руб.', y2020: '1.1 М руб.', y2021: '0.7 М руб.', y2022: '2.4 М руб.', y2023: '1.9 М руб.' },
+    { id: 10, name: 'Инвестиционная программа 10', cost: '9.100 М руб.', y2020: '2.0 М руб.', y2021: '1.5 М руб.', y2022: '3.8 М руб.', y2023: '3.1 М руб.' }
   ];
+
+  let currentPage = $state(1);
+  const itemsPerPage = 6;
+  const totalPages = Math.ceil(allPrograms.length / itemsPerPage);
+
+  const programs = $derived(
+    allPrograms.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+  );
+
+  function goToPage(page: number) {
+    if (page >= 1 && page <= totalPages) {
+      currentPage = page;
+    }
+  }
+
+  const visiblePages = $derived(() => {
+    const pages: (number | string)[] = [];
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1);
+
+      if (currentPage > 3) {
+        pages.push('...');
+      }
+
+      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push('...');
+      }
+
+      pages.push(totalPages);
+    }
+
+    return pages;
+  });
 </script>
 
 <svelte:head>
@@ -123,6 +171,40 @@
             <div class="table-cell" style="width: 126px;">{program.y2023}</div>
           </div>
         {/each}
+      </div>
+    </div>
+
+    <div class="table-footer">
+      <div class="pagination">
+        <button
+          class="pagination-btn"
+          onclick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <ChevronLeftIcon />
+        </button>
+
+        {#each visiblePages() as page}
+          {#if page === '...'}
+            <span class="pagination-ellipsis">...</span>
+          {:else}
+            <button
+              class="pagination-page"
+              class:active={currentPage === page}
+              onclick={() => goToPage(page as number)}
+            >
+              {page}
+            </button>
+          {/if}
+        {/each}
+
+        <button
+          class="pagination-btn"
+          onclick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          <ChevronRightIcon />
+        </button>
       </div>
     </div>
 
@@ -282,7 +364,7 @@
   }
 
   .table-wrapper {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     width: fit-content;
   }
 
@@ -359,6 +441,85 @@
     font-weight: 500;
     text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
     padding: 12px;
+  }
+
+  .table-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 32px;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pagination-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #152536;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+  }
+
+  .pagination-btn:hover:not(:disabled) {
+    background-color: #1a2d42;
+  }
+
+  .pagination-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .pagination-btn :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pagination-page {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #152536;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Manrope', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .pagination-page:hover {
+    background-color: #1a2d42;
+  }
+
+  .pagination-page.active {
+    background-color: #2D5C8F;
+  }
+
+  .pagination-ellipsis {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.5;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
   }
 
   .actions {
