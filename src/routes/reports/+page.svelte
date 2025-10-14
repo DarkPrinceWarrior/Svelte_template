@@ -174,7 +174,18 @@
       </div>
     </div>
 
-    <div class="table-footer">
+    <div class="bottom-section">
+      <div class="actions">
+        <button class="action-btn">
+          <EditIcon />
+          <span>Редактировать</span>
+        </button>
+        <button class="action-btn">
+          <DownloadIcon />
+          <span>Скачать</span>
+        </button>
+      </div>
+
       <div class="pagination">
         <button
           class="pagination-btn"
@@ -206,17 +217,6 @@
           <ChevronRightIcon />
         </button>
       </div>
-    </div>
-
-    <div class="actions">
-      <button class="action-btn">
-        <EditIcon />
-        <span>Редактировать</span>
-      </button>
-      <button class="action-btn">
-        <DownloadIcon />
-        <span>Скачать</span>
-      </button>
     </div>
   </main>
 </div>
@@ -364,7 +364,7 @@
   }
 
   .table-wrapper {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     width: fit-content;
   }
 
@@ -443,10 +443,11 @@
     padding: 12px;
   }
 
-  .table-footer {
+  .bottom-section {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 32px;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
   }
 
   .pagination {
@@ -525,7 +526,6 @@
   .actions {
     display: flex;
     gap: 16px;
-    width: fit-content;
   }
 
   .action-btn {
