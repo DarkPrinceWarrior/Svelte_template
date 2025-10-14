@@ -1,0 +1,24 @@
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile.dev
+    develop:
+      watch:
+        - action: sync
+          path: ../src
+          target: /app/src
+        - action: sync
+          path: ../static
+          target: /app/static
+        - action: rebuild
+          path: package.json
+        - action: rebuild
+          path: ../.env
+        - action: rebuild
+          path: .
+    ports:
+      - 3000:3000
+    environment:
+      - BUN_CONFIG_WATCH=1

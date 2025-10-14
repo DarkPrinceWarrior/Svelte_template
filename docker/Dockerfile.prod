@@ -1,0 +1,74 @@
+# ===========================================
+# Dockerfile для продакшена SvelteKit приложения
+# ===========================================
+# Этот Dockerfile предназначен для продакшен развертывания
+# с оптимизированной сборкой и минимальным размером образа
+
+# ===========================================
+# Этап 1: Установка зависимостей
+# ===========================================
+FROM node:20-alpine AS dependencies
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем файлы зависимостей для кэширования слоев Docker
+COPY package.json package-lock.json* ./
+
+# Устанавливаем все зависимости (включая dev-зависимости для сборки)
+# Используем npm ci если есть package-lock.json, иначе npm install
+RUN if [ -f package-lock.json ]; then npm ci --include=dev; else npm install; fi
+
+# ===========================================
+# Этап 2: Сборка приложения
+# ===========================================
+FROM node:20-alpine AS builder
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем установленные зависимости из предыдущего этапа
+COPY --from=dependencies /app/node_modules ./node_modules
+
+# Копируем исходный код приложения
+COPY . .
+
+# Собираем приложение для продакшена
+RUN npm run build
+
+# ===========================================
+# Этап 3: Продакшен образ
+# ===========================================
+FROM node:20-alpine AS production
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Создаем пользователя для безопасности (не root)
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S sveltekit -u 1001
+
+# Копируем только необходимые файлы для продакшена
+COPY --from=builder --chown=sveltekit:nodejs /app/build ./build
+COPY --from=builder --chown=sveltekit:nodejs /app/.svelte-kit ./.svelte-kit
+COPY --from=builder --chown=sveltekit:nodejs /app/static ./static
+COPY --from=builder --chown=sveltekit:nodejs /app/svelte.config.js ./svelte.config.js
+COPY --from=builder --chown=sveltekit:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=sveltekit:nodejs /app/package-lock.json* ./package-lock.json
+
+# Устанавливаем только продакшен зависимости
+# Используем npm ci если есть package-lock.json, иначе npm install
+RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --production; fi && npm cache clean --force
+
+# Переключаемся на непривилегированного пользователя
+USER sveltekit
+
+# Открываем порт для приложения
+EXPOSE 3000
+
+# Устанавливаем переменные окружения для продакшена
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Запускаем приложение
+CMD ["node", "build"]

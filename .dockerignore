@@ -1,0 +1,33 @@
+# Игнорируем ненужные файлы для Docker сборки
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+.env
+.nyc_output
+coverage
+.svelte-kit
+build
+dist
+
+# Исключаем Docker файлы из контекста сборки
+docker/
+compose.yaml
+docker-compose*.yml
+Dockerfile*
+
+# Исключаем временные файлы
+*.log
+*.tmp
+*.temp
+
+# Исключаем IDE файлы
+.vscode
+.idea
+*.swp
+*.swo
+
+# Исключаем OS файлы
+.DS_Store
+Thumbs.db
