@@ -194,6 +194,10 @@
 
   .content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 64px 80px;
   }
 
@@ -203,6 +207,7 @@
     font-weight: 500;
     margin-bottom: 48px;
     text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+    text-align: center;
   }
 
   .cards {
@@ -255,6 +260,7 @@
   }
 
   .selector-wrapper {
+    width: 100%;
     max-width: 600px;
   }
 
