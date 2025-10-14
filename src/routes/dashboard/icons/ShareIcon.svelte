@@ -1,7 +1,3 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="18" cy="5" r="3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="6" cy="12" r="3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="18" cy="19" r="3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M8.59 13.51L15.42 17.49" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M15.41 6.51L8.59 10.49" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M9 14L15 17M15 8L9 11M18 21.5C16.3431 21.5 15 20.1569 15 18.5C15 16.8431 16.3431 15.5 18 15.5C19.6569 15.5 21 16.8431 21 18.5C21 20.1569 19.6569 21.5 18 21.5ZM6 15.5C4.34315 15.5 3 14.1569 3 12.5C3 10.8431 4.34315 9.5 6 9.5C7.65685 9.5 9 10.8431 9 12.5C9 14.1569 7.65685 15.5 6 15.5ZM18 9.5C16.3431 9.5 15 8.15685 15 6.5C15 4.84315 16.3431 3.5 18 3.5C19.6569 3.5 21 4.84315 21 6.5C21 8.15685 19.6569 9.5 18 9.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
