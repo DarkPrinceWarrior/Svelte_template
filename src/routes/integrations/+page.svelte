@@ -541,8 +541,6 @@
   .action-buttons {
     display: flex;
     gap: 12px;
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
   }
 
   .action-btn {
