@@ -164,11 +164,45 @@
     <div class="bottom-section">
       <div class="chart-block">
         <h3 class="block-title">Загруженные данные</h3>
-        <svg viewBox="0 0 200 200" class="pie-chart">
+        <svg viewBox="0 0 280 200" class="pie-chart">
           {#each paths as segment}
             <path d={segment.path} fill={segment.color} />
           {/each}
           <circle cx="100" cy="100" r="50" fill="#0F1D2D" />
+
+          {#each paths as segment}
+            {@const angle = segment.midAngle * Math.PI / 180}
+            {@const labelRadius = 95}
+            {@const x = 100 + labelRadius * Math.cos(angle)}
+            {@const y = 100 + labelRadius * Math.sin(angle)}
+            {@const lineEndX = 100 + (labelRadius + 25) * Math.cos(angle)}
+            {@const lineEndY = 100 + (labelRadius + 25) * Math.sin(angle)}
+            {@const textX = 100 + (labelRadius + 35) * Math.cos(angle)}
+            {@const textY = 100 + (labelRadius + 35) * Math.sin(angle)}
+            {@const textAnchor = angle > -90 && angle < 90 ? 'start' : 'end'}
+
+            <line
+              x1={x}
+              y1={y}
+              x2={lineEndX}
+              y2={lineEndY}
+              stroke="white"
+              stroke-width="1"
+            />
+            <text
+              x={textX}
+              y={textY}
+              fill="white"
+              font-size="12"
+              font-family="Manrope"
+              font-weight="500"
+              text-anchor={textAnchor}
+              dominant-baseline="middle"
+              style="text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);"
+            >
+              {segment.name}
+            </text>
+          {/each}
         </svg>
         <div class="chart-labels">
           {#each chartData as item}
