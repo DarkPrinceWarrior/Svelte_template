@@ -439,9 +439,7 @@
   }
 
   .bottom-section {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    grid-template-rows: auto auto;
+    display: flex;
     gap: 12px;
   }
 
@@ -449,7 +447,8 @@
     background-color: #152536;
     border-radius: 12px;
     padding: 24px;
-    grid-row: 1 / 3;
+    width: 380px;
+    flex-shrink: 0;
   }
 
   .block-title {
@@ -497,7 +496,6 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    grid-row: 1 / 2;
   }
 
   .kpi-cards {
