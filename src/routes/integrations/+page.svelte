@@ -429,8 +429,7 @@
 
   .bottom-section {
     display: grid;
-    grid-template-columns: 412px 268px;
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
@@ -438,7 +437,7 @@
     background-color: #152536;
     border-radius: 12px;
     padding: 24px;
-    grid-row: 1 / 2;
+    grid-row: span 2;
   }
 
   .block-title {
@@ -456,36 +455,12 @@
     display: block;
   }
 
-  .chart-labels {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 16px;
-  }
-
-  .chart-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .label-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-
-  .label-text {
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 500;
-    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+  .right-column {
+    display: contents;
   }
 
   .kpi-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: contents;
   }
 
   .kpi-card {
@@ -522,15 +497,10 @@
   }
 
   .action-buttons {
-    display: flex;
-    gap: 12px;
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
+    display: contents;
   }
 
   .action-btn {
-    flex: 1;
-    max-width: 274px;
     background-color: #152536;
     border: none;
     border-radius: 12px;
