@@ -204,6 +204,14 @@
             </text>
           {/each}
         </svg>
+        <div class="chart-labels">
+          {#each chartData as item}
+            <div class="chart-label">
+              <span class="label-dot" style="background-color: {item.color}"></span>
+              <span class="label-text">{item.name}</span>
+            </div>
+          {/each}
+        </div>
       </div>
 
       <div class="right-column">
@@ -429,7 +437,8 @@
 
   .bottom-section {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 412px 1fr;
+    grid-template-rows: auto auto;
     gap: 12px;
   }
 
@@ -437,7 +446,7 @@
     background-color: #152536;
     border-radius: 12px;
     padding: 24px;
-    grid-row: span 2;
+    grid-row: 1 / 3;
   }
 
   .block-title {
@@ -455,12 +464,42 @@
     display: block;
   }
 
+  .chart-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .chart-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .label-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .label-text {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+  }
+
   .right-column {
-    display: contents;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    grid-row: 1 / 2;
   }
 
   .kpi-cards {
-    display: contents;
+    display: flex;
+    gap: 12px;
   }
 
   .kpi-card {
@@ -471,7 +510,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 140px;
+    flex: 1;
   }
 
   .kpi-value {
@@ -497,10 +536,14 @@
   }
 
   .action-buttons {
-    display: contents;
+    display: flex;
+    gap: 12px;
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
   }
 
   .action-btn {
+    flex: 1;
     background-color: #152536;
     border: none;
     border-radius: 12px;
