@@ -24,15 +24,11 @@
   ];
 
   const total = chartData.reduce((sum, item) => sum + item.value, 0);
-  let currentAngle = 0;
 
-  const createArcPath = (value: number, color: string) => {
+  const createArcPath = (value: number, startAngle: number) => {
     const percentage = value / total;
     const angle = percentage * 360;
-    const startAngle = currentAngle;
-    const endAngle = currentAngle + angle;
-
-    currentAngle = endAngle;
+    const endAngle = startAngle + angle;
 
     const startRad = (startAngle - 90) * Math.PI / 180;
     const endRad = (endAngle - 90) * Math.PI / 180;
@@ -50,14 +46,20 @@
 
     return {
       path: `M ${cx} ${cy} L ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2} Z`,
-      midAngle: (startAngle + endAngle) / 2
+      midAngle: (startAngle + endAngle) / 2,
+      angle
     };
   };
 
-  const paths = chartData.map((item) => ({
-    ...item,
-    ...createArcPath(item.value, item.color)
-  }));
+  let currentAngle = 0;
+  const paths = chartData.map((item) => {
+    const result = {
+      ...item,
+      ...createArcPath(item.value, currentAngle)
+    };
+    currentAngle += result.angle;
+    return result;
+  });
 </script>
 
 <svelte:head>
