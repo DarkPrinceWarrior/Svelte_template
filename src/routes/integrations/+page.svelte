@@ -204,36 +204,30 @@
             </text>
           {/each}
         </svg>
-        <div class="chart-labels">
-          {#each chartData as item}
-            <div class="chart-label">
-              <span class="label-dot" style="background-color: {item.color}"></span>
-              <span class="label-text">{item.name}</span>
-            </div>
-          {/each}
-        </div>
       </div>
 
-      <div class="kpi-cards">
-        <div class="kpi-card loaded">
-          <div class="kpi-value">965</div>
-          <div class="kpi-label">Загружено</div>
+      <div class="right-column">
+        <div class="kpi-cards">
+          <div class="kpi-card loaded">
+            <div class="kpi-value">965</div>
+            <div class="kpi-label">Загружено</div>
+          </div>
+          <div class="kpi-card errors">
+            <div class="kpi-value">364</div>
+            <div class="kpi-label">Ошибки</div>
+          </div>
         </div>
-        <div class="kpi-card errors">
-          <div class="kpi-value">364</div>
-          <div class="kpi-label">Ошибки</div>
-        </div>
-      </div>
 
-      <div class="action-buttons">
-        <button class="action-btn">
-          <RefreshCw size={20} />
-          <span>Обновить данные</span>
-        </button>
-        <button class="action-btn">
-          <Calendar size={20} />
-          <span>Настроить расписание</span>
-        </button>
+        <div class="action-buttons">
+          <button class="action-btn">
+            <RefreshCw size={20} />
+            <span>Обновить данные</span>
+          </button>
+          <button class="action-btn">
+            <Calendar size={20} />
+            <span>Настроить расписание</span>
+          </button>
+        </div>
       </div>
     </div>
   </main>
