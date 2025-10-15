@@ -115,54 +115,56 @@
   <main class="content">
     <h1 class="title">Интеграции</h1>
 
-    <div class="table-container">
-      <div class="table-header">
-        <div class="header-cell source">
-          <span>Источник</span>
-          <ChevronDownIcon />
-        </div>
-        <div class="header-cell data-type">
-          <span>Тип данных</span>
-          <ChevronDownIcon />
-        </div>
-        <div class="header-cell update">
-          <span>Обновление</span>
-          <ChevronDownIcon />
-        </div>
-        <div class="header-cell records">
-          <span>Обновлено записей</span>
-        </div>
-        <div class="header-cell status">
-          <span>Статус</span>
-          <ChevronDownIcon />
-        </div>
-      </div>
-
-      {#each integrations as integration}
-        <div class="table-row">
-          <div class="cell source">{integration.source}</div>
-          <div class="cell data-type">{integration.dataType}</div>
-          <div class="cell update">{integration.update}</div>
-          <div class="cell records">{integration.records}</div>
-          <div class="cell status">
-            <span class="status-badge {integration.status}">
-              {#if integration.status === 'success'}
-                Успешно
-              {:else if integration.status === 'error'}
-                Ошибка
-              {:else if integration.status === 'partial'}
-                Частично
-              {/if}
-            </span>
+    <div class="table-wrapper">
+      <div class="table-container">
+        <div class="table-header">
+          <div class="header-cell source">
+            <span>Источник</span>
+            <ChevronDownIcon />
+          </div>
+          <div class="header-cell data-type">
+            <span>Тип данных</span>
+            <ChevronDownIcon />
+          </div>
+          <div class="header-cell update">
+            <span>Обновление</span>
+            <ChevronDownIcon />
+          </div>
+          <div class="header-cell records">
+            <span>Обновлено записей</span>
+          </div>
+          <div class="header-cell status">
+            <span>Статус</span>
+            <ChevronDownIcon />
           </div>
         </div>
-      {/each}
+
+        {#each integrations as integration}
+          <div class="table-row">
+            <div class="cell source">{integration.source}</div>
+            <div class="cell data-type">{integration.dataType}</div>
+            <div class="cell update">{integration.update}</div>
+            <div class="cell records">{integration.records}</div>
+            <div class="cell status">
+              <span class="status-badge {integration.status}">
+                {#if integration.status === 'success'}
+                  Успешно
+                {:else if integration.status === 'error'}
+                  Ошибка
+                {:else if integration.status === 'partial'}
+                  Частично
+                {/if}
+              </span>
+            </div>
+          </div>
+        {/each}
+      </div>
     </div>
 
     <div class="bottom-section">
       <div class="chart-block">
         <h3 class="block-title">Загруженные данные</h3>
-        <svg viewBox="0 0 200 200" class="pie-chart">
+        <svg viewBox="0 0 280 200" class="pie-chart">
           {#each paths as segment}
             <path d={segment.path} fill={segment.color} />
           {/each}
@@ -173,8 +175,11 @@
             {@const labelRadius = 95}
             {@const x = 100 + labelRadius * Math.cos(angle)}
             {@const y = 100 + labelRadius * Math.sin(angle)}
-            {@const lineEndX = 100 + (labelRadius + 15) * Math.cos(angle)}
-            {@const lineEndY = 100 + (labelRadius + 15) * Math.sin(angle)}
+            {@const lineEndX = 100 + (labelRadius + 25) * Math.cos(angle)}
+            {@const lineEndY = 100 + (labelRadius + 25) * Math.sin(angle)}
+            {@const textX = 100 + (labelRadius + 35) * Math.cos(angle)}
+            {@const textY = 100 + (labelRadius + 35) * Math.sin(angle)}
+            {@const textAnchor = angle > 90 && angle < 270 ? 'end' : 'start'}
 
             <line
               x1={x}
@@ -184,6 +189,19 @@
               stroke="white"
               stroke-width="1"
             />
+            <text
+              x={textX}
+              y={textY}
+              fill="white"
+              font-size="12"
+              font-family="Manrope"
+              font-weight="500"
+              text-anchor={textAnchor}
+              dominant-baseline="middle"
+              style="text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);"
+            >
+              {segment.name}
+            </text>
           {/each}
         </svg>
         <div class="chart-labels">
@@ -205,10 +223,6 @@
           <div class="kpi-value">364</div>
           <div class="kpi-label">Ошибки</div>
         </div>
-      </div>
-
-      <div class="data-view">
-        <span>Просмотр данных</span>
       </div>
 
       <div class="action-buttons">
@@ -333,11 +347,15 @@
     text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
   }
 
+  .table-wrapper {
+    margin-bottom: 32px;
+  }
+
   .table-container {
     background-color: #152536;
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 32px;
+    display: inline-block;
   }
 
   .table-header {
@@ -417,7 +435,7 @@
 
   .bottom-section {
     display: grid;
-    grid-template-columns: 412px 268px 269px;
+    grid-template-columns: 412px 268px;
     grid-template-rows: auto auto;
     gap: 12px;
   }
@@ -438,7 +456,7 @@
   }
 
   .pie-chart {
-    width: 200px;
+    width: 100%;
     height: 200px;
     margin: 0 auto;
     display: block;
@@ -495,17 +513,11 @@
   }
 
   .kpi-card.loaded .kpi-value {
-    background: linear-gradient(90deg, #6FEDE5 0%, #2CE89B 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #2CE89B;
   }
 
   .kpi-card.errors .kpi-value {
-    background: linear-gradient(90deg, #B1381B 0%, #E95233 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #E95233;
   }
 
   .kpi-label {
@@ -515,24 +527,10 @@
     text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
   }
 
-  .data-view {
-    background-color: #152536;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-column: 3 / 4;
-    grid-row: 1 / 2;
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: 500;
-    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
-  }
-
   .action-buttons {
     display: flex;
     gap: 12px;
-    grid-column: 1 / 4;
+    grid-column: 1 / 3;
     grid-row: 2 / 3;
   }
 
