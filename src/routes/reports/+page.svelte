@@ -445,9 +445,10 @@
 
   .bottom-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    width: fit-content;
+    width: 1041px;
+    gap: 16px;
   }
 
   .pagination {
